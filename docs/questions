@@ -1,0 +1,1 @@
+Should we throw an exception from getFirst() if there is no elements in the array?
