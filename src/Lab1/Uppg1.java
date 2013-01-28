@@ -6,6 +6,7 @@ public class Uppg1 {
 
 	private String[] strings;
 	private int logicSize;
+	private int p;
 
 	public Uppg1() {
 		strings = new String [10];
@@ -30,7 +31,7 @@ public class Uppg1 {
 		return logicSize==0;
 	}	
 
-	public String getFirst(){
+	public String getFirst() throws NoSuchElementException {
 		if (this.empty()){
 			throw new NoSuchElementException();
 		}
@@ -62,16 +63,7 @@ public class Uppg1 {
 		}
 		return false;
 	}
-
-	private boolean isFull(){
-		return (strings.length == logicSize);
-	}
-	private void doubleCapacity(){
-		String[] stringsTmp = new String [strings.length*2];
-		System.arraycopy(strings, 0, stringsTmp, 0, logicSize);
-		strings = stringsTmp;
-	}
-
+	
 	@Override
 	public String toString(){
 		if (empty()){
@@ -87,5 +79,27 @@ public class Uppg1 {
 			return "" + stringBuilder;
 		}
 	}
+	
+	public void setP(int p) throws IndexOutOfBoundsException{
+		if (p<0){
+			throw new IndexOutOfBoundsException("Index must be a positive integer");
+		}
+		this.p = p;
+	}
+	
+	public boolean hasNext(int p){
+		return (p<logicSize);
+	}
+
+	private boolean isFull(){
+		return (strings.length == logicSize);
+	}
+	private void doubleCapacity(){
+		String[] stringsTmp = new String [strings.length*2];
+		System.arraycopy(strings, 0, stringsTmp, 0, logicSize);
+		strings = stringsTmp;
+	}
+
+	
 
 }

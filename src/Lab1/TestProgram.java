@@ -8,6 +8,7 @@ public class TestProgram {
 		uppg1.addFirst("9");
 		uppg1.addFirst("4");
 		uppg1.addFirst("3");
+		uppg1.removeFirst();
 		System.out.println("*" + uppg1 +  " # bör vara 9 i först");
 	}
 
