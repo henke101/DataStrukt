@@ -29,7 +29,7 @@ public class Uppg1 {
 
 		return logicSize==0;
 	}	
-	
+
 	public String getFirst(){
 		if (this.empty()){
 			throw new NoSuchElementException();
@@ -49,7 +49,7 @@ public class Uppg1 {
 			i++;
 		}
 		while (i<logicSize);
-		
+
 		strings [i] = null;
 		logicSize--;
 	}
@@ -70,6 +70,22 @@ public class Uppg1 {
 		String[] stringsTmp = new String [strings.length*2];
 		System.arraycopy(strings, 0, stringsTmp, 0, logicSize);
 		strings = stringsTmp;
+	}
+
+	@Override
+	public String toString(){
+		if (empty()){
+			return "";
+		}
+		else {
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.append("[ " + strings[0]);
+			for(int i = 1; i<logicSize; i++){
+				stringBuilder.append(", " + strings [i]);
+			}
+			stringBuilder.append(" ]");
+			return "" + stringBuilder;
+		}
 	}
 
 }
