@@ -45,6 +45,9 @@ public class TestProgram {
 		
 		System.out.println("*" + (test.setPToIndexOf("test")) + " # ska vara true");
 		System.out.println("*" + (test.setPToIndexOf("326")) + " # ska vara false");
+		test.addFirst(null);
+		System.out.println(test);
+		System.out.println(test.existP(null));
 		
 	}
 

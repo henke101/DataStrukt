@@ -72,6 +72,9 @@ public class Uppg1 {
 	 * @return True if the array contains the element, false otherwise
 	 */
 	public boolean existP(String elem) {
+		if (elem == null){
+			return false;
+		}
 		return (find(elem) >= 0);
 	}
 
