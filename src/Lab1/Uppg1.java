@@ -10,20 +10,23 @@ import java.util.NoSuchElementException;
 public class Uppg1 {
 
 	private String[] strings;
-	private int logicSize;
+	private int size;
+	private int capacity;
 	private int p;
 	/**
 	 * Constructs an object with a default capacity of 10 String elements.
 	 */
 	public Uppg1() {
 		strings = new String[10];
+		capacity = 10;
 	}
 	/**
 	 * Constructs an object with a set capacity.
 	 * @param size The capacity size of the array
 	 */
-	public Uppg1(int size) {
-		strings = new String[size];
+	public Uppg1(int capacity) {
+		strings = new String[capacity];
+		this.capacity = capacity;
 	}
 	/**
 	 * Adds an String element at the first index.
@@ -38,7 +41,7 @@ public class Uppg1 {
 	 */
 	public boolean empty() {
 
-		return logicSize == 0;
+		return size == 0;
 	}
 	/**
 	 * @return The first element of the array
@@ -63,10 +66,10 @@ public class Uppg1 {
 		do {
 			strings[i - 1] = strings[i];
 			i++;
-		} while (i < logicSize);
+		} while (i < size);
 
 		strings[i] = null;
-		logicSize--;
+		size--;
 	}
 	/**
 	 * @param elem The String element to find
@@ -91,7 +94,7 @@ public class Uppg1 {
 		} else {
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.append("[ " + strings[0]);
-			for (int i = 1; i < logicSize; i++) {
+			for (int i = 1; i < size; i++) {
 				stringBuilder.append(", " + strings[i]);
 			}
 			stringBuilder.append(" ]");
@@ -116,7 +119,7 @@ public class Uppg1 {
 
 		if (!hasNext(p)) {
 			throw new IndexOutOfBoundsException("Destination of p must be " +
-					"within the size of the array: " + logicSize);
+					"within the size of the array: " + size);
 		}
 		this.p = p;
 	}
@@ -128,7 +131,7 @@ public class Uppg1 {
 	 * @return True if there is something on the position index, false otherwise
 	 */
 	private boolean hasNext(int index) {
-		return (index < logicSize);
+		return (index < size);
 	}
 	/**
 	 * Adds an element to the array at a specific position.
@@ -175,12 +178,13 @@ public class Uppg1 {
 	}
 
 	private boolean isFull() {
-		return (strings.length == logicSize);
+		return (capacity == size);
 	}
 
 	private void doubleCapacity() {
-		String[] stringsTmp = new String[strings.length * 2];
-		System.arraycopy(strings, 0, stringsTmp, 0, logicSize);
+		capacity = capacity*2;
+		String[] stringsTmp = new String[capacity];
+		System.arraycopy(strings, 0, stringsTmp, 0, size);
 		strings = stringsTmp;
 	}
 	
@@ -194,15 +198,15 @@ public class Uppg1 {
 		if (isFull()) {
 			doubleCapacity();
 		}
-		for (int i = logicSize - 1; i >= index; i--) {
+		for (int i = size - 1; i >= index; i--) {
 			strings[i + 1] = strings[i];
 		}
 		strings[index] = element;
-		logicSize++;
+		size++;
 	}
 
 	private int find(String element) {
-		for (int i = 0; i < logicSize; i++) {
+		for (int i = 0; i < size; i++) {
 			if (element.equals(strings[i])) {
 				return i;
 			}
