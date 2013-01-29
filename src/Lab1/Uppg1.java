@@ -127,29 +127,27 @@ public class Uppg1 {
 	 * private methods to make it easier to read for the graders.)
 	 * @return True if there is something on the position index, false otherwise
 	 */
-	private boolean hasNext(int p) {
-		return (p < logicSize);
+	private boolean hasNext(int index) {
+		return (index < logicSize);
 	}
 	/**
 	 * Adds an element to the array at a specific position.
 	 * Can not add a null parameter.
-	 * @param index The position at which the element is to be placed
 	 * @param element The element to be placed in the array
-	 * @throws IndexOutOfBoundsException
+	 * @throws IllegalArgumentException
 	 */
-	public void addAfterP(int index, String element)
-			throws IndexOutOfBoundsException, IllegalArgumentException {
-		setP(index); //we interpret index as p here, therefore setting it first
+	public void addAfterP(String element)
+			throws IllegalArgumentException {
+		
 		addElement(p, element);	
 	}
 	/**
-	 * Returns the element of a specific position
-	 * @param p The chosen index
-	 * @return The String of the specific index
+	 * Returns the element at the position of p
+	 * @return The String at the specific index
 	 */
-	public String get(int p){
-		setP(p);
-		return strings[this.p];
+	public String get(){
+		
+		return strings[p];
 	}
 	/**
 	 * Moves the position index

@@ -8,9 +8,16 @@ public class TestProgram {
 		for (int i = 0; i < 12; i++) {
 			test.addFirst("" + i);
 		}
+		
+		
 		System.out.println("*" + test + " # det ska vara fyllt " +
 				"med 12 element 11->0");
-		test.addAfterP(4, "hejhej");
+		try {
+			test.setP(4);
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("*" + e + " # det här ska inte synas");
+		}
+		test.addAfterP("hejhej");
 		System.out.println("*" + test +  " # bör innehålla " +
 				"'hejhej' på index 4");
 		System.out.println("*" + (test.existP("hejhej")) + " # bör " +
@@ -34,20 +41,29 @@ public class TestProgram {
 			test.addFirst("" + i);
 		}
 		
-		System.out.println("*" + test.hasNext(2) + " # ska vara true");
-		System.out.println("*" + test.hasNext(5) + " # ska vara false");
-		
-		test.addAfterP(2, "test");
+		//System.out.println("*" + test.hasNext(2) + " # ska vara true");
+		//System.out.println("*" + test.hasNext(5) + " # ska vara false");
+		try {
+			test.setP(2);
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("*" + e + " # det ska stå ett error " +
+					"message från exception");
+		}
+		test.addAfterP("test");
 		System.out.println("*" + test + " # skall innehålla test på index 2");
 		
-		System.out.println("*" + test.get(2) + " # det skall stå test");
+		System.out.println("*" + test.get() + " # det skall stå test");
 		test.moveP(-2);  // ta bort eller testa
 		
 		System.out.println("*" + (test.setPToIndexOf("test")) + " # ska vara true");
 		System.out.println("*" + (test.setPToIndexOf("326")) + " # ska vara false");
-		test.addFirst(null);
-		System.out.println(test);
-		System.out.println(test.existP(null));
+		try {
+			test.addFirst(null);
+		} catch (IllegalArgumentException e) {
+			System.out.println("*" + e + " # det ska vara illegal argument med felmeddelande");
+		}
+		System.out.println("*" + test + " # null skall inte finnas med i utskriften");
+		System.out.println("*" +test.existP(null) + " # ska skriva ut false");
 		
 	}
 
