@@ -22,7 +22,7 @@ public class Uppg1 {
 	}
 	/**
 	 * Constructs an object with a set capacity.
-	 * @param size The capacity size of the array
+	 * @param capacity The capacity of the array
 	 */
 	public Uppg1(int capacity) {
 		strings = new String[capacity];
