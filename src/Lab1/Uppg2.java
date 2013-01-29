@@ -28,10 +28,8 @@ public class Uppg2 {
 		double centerPointSquared = centerPoint*centerPoint;
 		
 		if(Math.abs(centerPointSquared - sqr) < eps){
-			System.out.println("# " + (centerPointSquared - sqr));
 			return centerPoint;
 		}
-		System.out.println("* " + Math.abs(centerPointSquared - sqr - eps));
 		if (centerPointSquared > sqr){
 			return help(sqr, eps, low, centerPoint);
 		}
