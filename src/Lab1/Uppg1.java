@@ -80,6 +80,7 @@ public class Uppg1 {
 	/**
 	 * Returns a String representation of the object in the format
 	 * [ a, b, c ] if the array contains the elements a, b and c.
+	 * If the array is empty this returns an empty string.
 	 */
 	public String toString() {
 		if (empty()) {
@@ -107,20 +108,23 @@ public class Uppg1 {
 
 		if (p < 0) {
 			throw new IndexOutOfBoundsException(
-					"Parameter must be a positive integer");
+					"p must be a positive integer");
 		}
 
 		if (!hasNext(p)) {
-			throw new IndexOutOfBoundsException("Parameter must be " +
+			throw new IndexOutOfBoundsException("Destination of p must be " +
 					"within the size of the array: " + logicSize);
 		}
 		this.p = p;
 	}
-	/**
-	 * @param p The position index
+	/*
+	 * Returns true if the current p index contains an element.
+	 * (Note: This method is private since it is mainly used for 
+	 * setP to not ever be outside the logical list. Also it isn't among the 
+	 * private methods to make it easier to read for the graders.)
 	 * @return True if there is something on the position index, false otherwise
 	 */
-	public boolean hasNext(int p) {
+	private boolean hasNext(int p) {
 		return (p < logicSize);
 	}
 	/**
@@ -147,8 +151,9 @@ public class Uppg1 {
 	/**
 	 * Moves the position index
 	 * @param val The amount of steps the position index is to be moved
+	 * @throws IndexOutOfBoundsException
 	 */
-	public void moveP(int val){
+	public void moveP(int val) throws IndexOutOfBoundsException{
 		setP(this.p+val);
 	}
 	/**
