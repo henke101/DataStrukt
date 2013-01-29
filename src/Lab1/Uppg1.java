@@ -29,7 +29,7 @@ public class Uppg1 {
 		this.capacity = capacity;
 	}
 	/**
-	 * Adds an String element at the first index.
+	 * Adds a String element at the first index.
 	 * Can not add a null element.
 	 * @param element The String to be added
 	 */
@@ -44,7 +44,7 @@ public class Uppg1 {
 		return size == 0;
 	}
 	/**
-	 * @return The first element of the array
+	 * @return First element of the array
 	 * @throws NoSuchElementException
 	 */
 	public String getFirst() throws NoSuchElementException {
@@ -72,20 +72,20 @@ public class Uppg1 {
 		size--;
 	}
 	/**
-	 * @param elem The String element to find
+	 * @param element The String element to find
 	 * @return True if the array contains the element, false otherwise
 	 */
-	public boolean existP(String elem) {
-		if (elem == null){
+	public boolean existP(String element) {
+		if (element == null){
 			return false;
 		}
-		return (find(elem) >= 0);
+		return (find(element) >= 0);
 	}
 
 	@Override
 	/**
 	 * Returns a String representation of the object in the format
-	 * [ a, b, c ] if the array contains the elements a, b and c.
+	 * [ a, b, c ] if the array e.g. contains the elements a, b and c.
 	 * If the array is empty this returns an empty string.
 	 */
 	public String toString() {
@@ -128,7 +128,7 @@ public class Uppg1 {
 	 * (Note: This method is private since it is mainly used for 
 	 * setP to not ever be outside the logical list. Also it isn't among the 
 	 * private methods to make it easier to read for the graders.)
-	 * @return True if there is something on the position index, false otherwise
+	 * @return True if there's something on the position index, false otherwise
 	 */
 	private boolean hasNext(int index) {
 		return (index < size);
@@ -153,8 +153,9 @@ public class Uppg1 {
 		return strings[p];
 	}
 	/**
-	 * Moves the position index
-	 * @param val The amount of steps the position index is to be moved
+	 * Moves the position index. 
+	 * @param val The amount of steps the position index is to be moved. 
+	 * To move the position index "backwards" use a negative parameter.
 	 * @throws IndexOutOfBoundsException
 	 */
 	public void moveP(int val) throws IndexOutOfBoundsException{
@@ -173,8 +174,6 @@ public class Uppg1 {
 		} else {
 			return false;
 		}
-
-
 	}
 
 	private boolean isFull() {
