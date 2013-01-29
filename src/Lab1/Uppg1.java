@@ -3,7 +3,7 @@ package Lab1;
 
 import java.util.NoSuchElementException;
 /**
- * A class representing an array of String elements
+ * This class represents an array of String elements.
  * @author Mike Phoohad
  * @author Henrik Andersson
  */
@@ -13,23 +13,24 @@ public class Uppg1 {
 	private int logicSize;
 	private int p;
 	/**
-	 * Constructs an object with a default capacity of 10 String elements
+	 * Constructs an object with a default capacity of 10 String elements.
 	 */
 	public Uppg1() {
 		strings = new String[10];
 	}
 	/**
-	 * Constructs an object with a set capacity 
+	 * Constructs an object with a set capacity.
 	 * @param size The capacity size of the array
 	 */
 	public Uppg1(int size) {
 		strings = new String[size];
 	}
 	/**
-	 * Adds an String element at the first index
+	 * Adds an String element at the first index.
+	 * Can not add a null element.
 	 * @param element The String to be added
 	 */
-	public void addFirst(String element) {
+	public void addFirst(String element) throws IllegalArgumentException{
 		addElement(0, element);
 	}
 	/**
@@ -123,13 +124,14 @@ public class Uppg1 {
 		return (p < logicSize);
 	}
 	/**
-	 * Adds an element to the array at a specific position
+	 * Adds an element to the array at a specific position.
+	 * Can not add a null parameter.
 	 * @param index The position at which the element is to be placed
 	 * @param element The element to be placed in the array
 	 * @throws IndexOutOfBoundsException
 	 */
 	public void addAfterP(int index, String element)
-			throws IndexOutOfBoundsException {
+			throws IndexOutOfBoundsException, IllegalArgumentException {
 		setP(index); //we interpret index as p here, therefore setting it first
 		addElement(p, element);	
 	}
@@ -150,7 +152,8 @@ public class Uppg1 {
 		setP(this.p+val);
 	}
 	/**
-	 * Searches for a String and sets the position index to the index of that String if found
+	 * Searches for a String and sets the position index to the index of 
+	 * the first instance of that String in the list if found
 	 * @param element The String to be searched for
 	 * @return True if the String is found, false otherwise
 	 */
@@ -179,6 +182,9 @@ public class Uppg1 {
 	//we don't check valid index because the 
 	//method is private and it's done elsewhere
 	private void addElement(int index, String element){
+		if (element == null) {
+			throw new IllegalArgumentException("Argument can not be null");
+		}
 		if (isFull()) {
 			doubleCapacity();
 		}
