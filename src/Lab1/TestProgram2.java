@@ -33,6 +33,35 @@ public class TestProgram2 {
 				+ " # sqrt 1787569 eps 0.00001");
 		System.out.println("Den riktiga roten till ovan: " + Math.sqrt(1787569)
 				+ "\n");
+		
+		
+		/*
+		 * How do you test if the method returns the right value without using
+		 * Math.sqrt()? Firstly you can implement some other kind of method to
+		 * calculate the square root. But this is unnecessary since all you
+		 * really have to do is know the answer beforehand.
+		 * 
+		 * E.g. if you want to find the root of b*b, just use binarySqrt(b*b,
+		 * eps) and compare it to b. Here is the test implementing the
+		 * following:
+		 */
+		double a[] = new double[20];
+		double eps = 10;
+		boolean failed = false;
+		for (int i = 0; i<a.length;i++) {
+			a[i] = Math.pow(2, i);
+			double b = Uppg2.binarySqrt(a[i]*a[i], eps);
+			if (Math.abs((b - a[i]))>eps) {
+				System.out.println("Broke on: " + a[i]);
+				failed = true;
+				break;
+			}
+		}
+		if (!failed) {
+			System.out.println("Cleared all the non Math.sqrt() tests!");
+		}
+		
+		
 
 	}
 
