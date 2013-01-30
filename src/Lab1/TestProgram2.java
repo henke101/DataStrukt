@@ -45,10 +45,10 @@ public class TestProgram2 {
 		 * aforementioned method.
 		 */
 		double a[] = new double[20];
-		double eps = 10;
+		double eps = 0.0001;
 		boolean failed = false;
 		for (int i = 0; i < a.length; i++) {
-			a[i] = Math.pow(2, i);
+			a[i] = Math.pow(1 + Math.random() * 10, i);
 			double b = Uppg2.binarySqrt(a[i] * a[i], eps);
 			if (Math.abs((b - a[i])) > eps) {
 				System.out.println("Broke on: " + a[i]);
