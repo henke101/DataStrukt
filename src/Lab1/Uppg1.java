@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
  * This class represents an array of String elements.
  * @author Mike Phoohad
  * @author Henrik Andersson
+ * group 21
  */
 public class Uppg1 {
 

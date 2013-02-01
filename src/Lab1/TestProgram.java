@@ -3,6 +3,7 @@ package Lab1;
  * 
  * @author HenrikAndersson
  * @author Mike Phoohad
+ * group 21
  *
  */
 public class TestProgram {

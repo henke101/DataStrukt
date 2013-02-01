@@ -4,6 +4,7 @@ package Lab1;
  * Class that calculates the square root of a positive number
  * @author Henrik Andersson
  * @author Mike Phoohad
+ * group 21
  */
 public class Uppg2 {
 	/**
