@@ -1,9 +1,10 @@
-
 package Lab1;
 
 import java.util.NoSuchElementException;
+
 /**
  * This class represents an array of String elements.
+ * 
  * @author Mike Phoohad
  * @author Henrik Andersson
  * group 21
@@ -14,6 +15,7 @@ public class Uppg1 {
 	private int size;
 	private int capacity;
 	private int p;
+
 	/**
 	 * Constructs an object with a default capacity of 10 String elements.
 	 */
@@ -21,6 +23,7 @@ public class Uppg1 {
 		strings = new String[10];
 		capacity = 10;
 	}
+
 	/**
 	 * Constructs an object with a set capacity.
 	 * @param capacity The capacity of the array
@@ -29,14 +32,17 @@ public class Uppg1 {
 		strings = new String[capacity];
 		this.capacity = capacity;
 	}
+
 	/**
-	 * Adds a String element at the first index.
-	 * Can not add a null element.
-	 * @param element The String to be added
+	 * Adds a String element at the first index. Can not add a null element.
+	 * 
+	 * @param element
+	 *            The String to be added
 	 */
-	public void addFirst(String element) throws IllegalArgumentException{
+	public void addFirst(String element) throws IllegalArgumentException {
 		addElement(0, element);
 	}
+
 	/**
 	 * @return True if array contains no elements, false otherwise
 	 */
@@ -44,6 +50,7 @@ public class Uppg1 {
 
 		return size == 0;
 	}
+
 	/**
 	 * @return First element of the array
 	 * @throws NoSuchElementException
@@ -55,9 +62,10 @@ public class Uppg1 {
 		return strings[0];
 
 	}
+
 	/**
-	 * Removes the first element of the array.
-	 * If the array contains no elements it does nothing.
+	 * Removes the first element of the array. If the array contains no elements
+	 * it does nothing.
 	 */
 	public void removeFirst() {
 		if (this.empty()) {
@@ -72,12 +80,14 @@ public class Uppg1 {
 		strings[i] = null;
 		size--;
 	}
+
 	/**
-	 * @param element The String element to find
+	 * @param element
+	 *            The String element to find
 	 * @return True if the array contains the element, false otherwise
 	 */
 	public boolean existP(String element) {
-		if (element == null){
+		if (element == null) {
 			return false;
 		}
 		return (find(element) >= 0);
@@ -102,10 +112,13 @@ public class Uppg1 {
 			return "" + stringBuilder;
 		}
 	}
+
 	/**
-	 * Sets the position index to a specific value.
-	 * If it is not possible it throws an IndexOufOfBoundsException.
-	 * @param p The desired position index
+	 * Sets the position index to a specific value. If it is not possible it
+	 * throws an IndexOufOfBoundsException.
+	 * 
+	 * @param p
+	 *            The desired position index
 	 * @throws IndexOutOfBoundsException
 	 */
 	public void setP(int p) throws IndexOutOfBoundsException {
@@ -114,61 +127,72 @@ public class Uppg1 {
 		}
 
 		if (p < 0) {
-			throw new IndexOutOfBoundsException(
-					"p must be a positive integer");
+			throw new IndexOutOfBoundsException("p must be a positive integer");
 		}
 
 		if (!hasNext(p)) {
-			throw new IndexOutOfBoundsException("Destination of p must be " +
-					"within the size of the array: " + size);
+			throw new IndexOutOfBoundsException("Destination of p must be "
+					+ "within the size of the array: " + size);
 		}
 		this.p = p;
 	}
+
 	/*
-	 * Returns true if the current p index contains an element.
-	 * (Note: This method is private since it is mainly used for 
-	 * setP to not ever be outside the logical list. Also it isn't among the 
-	 * private methods to make it easier to read for the graders.)
+	 * Returns true if the current p index contains an element. (Note: This
+	 * method is private since it is mainly used for setP to not ever be outside
+	 * the logical list. Also it isn't among the private methods to make it
+	 * easier to read for the graders.)
+	 * 
 	 * @return True if there's something on the position index, false otherwise
 	 */
 	private boolean hasNext(int index) {
 		return (index < size);
 	}
+
 	/**
-	 * Adds an element to the array at a specific position.
-	 * Can not add a null parameter.
-	 * @param element The element to be placed in the array
+	 * Adds an element to the array at a specific position. Can not add a null
+	 * parameter.
+	 * 
+	 * @param element
+	 *            The element to be placed in the array
 	 * @throws IllegalArgumentException
 	 */
-	public void addAfterP(String element)
-			throws IllegalArgumentException {
-		
-		addElement(p, element);	
+	public void addAfterP(String element) throws IllegalArgumentException {
+
+		addElement(p, element);
 	}
+
 	/**
 	 * Returns the element at the position of p
+	 * 
 	 * @return The String at the specific index
 	 */
-	public String get(){
-		
+	public String get() {
+
 		return strings[p];
 	}
+
 	/**
-	 * Moves the position index. 
-	 * @param val The amount of steps the position index is to be moved. 
-	 * To move the position index "backwards" use a negative parameter.
+	 * Moves the position index.
+	 * 
+	 * @param val
+	 *            The amount of steps the position index is to be moved. To move
+	 *            the position index "backwards" use a negative parameter.
 	 * @throws IndexOutOfBoundsException
 	 */
-	public void moveP(int val) throws IndexOutOfBoundsException{
-		setP(this.p+val);
+	public void moveP(int val) throws IndexOutOfBoundsException {
+		setP(this.p + val);
 	}
+
 	/**
-	 * Searches for a String and sets the position index to the index of 
-	 * the first instance of that String in the list if found
-	 * @param element The String to be searched for
+	 * Searches for a String and sets the position index to the index of the
+	 * first instance of that String in the list if found
+	 * 
+	 * @param element
+	 *            The String to be searched for
 	 * @return True if the String is found, false otherwise
 	 */
-	public boolean setPToIndexOf(String element){
+	public boolean setPToIndexOf(String element) {
 		if (find(element) >= 0) {
 			p = find(element);
 			return true;
@@ -182,16 +206,15 @@ public class Uppg1 {
 	}
 
 	private void doubleCapacity() {
-		capacity = capacity*2;
+		capacity = capacity * 2;
 		String[] stringsTmp = new String[capacity];
 		System.arraycopy(strings, 0, stringsTmp, 0, size);
 		strings = stringsTmp;
 	}
-	
-	
-	//we don't check valid index because the 
-	//method is private and it's done elsewhere
-	private void addElement(int index, String element){
+
+	// we don't check valid index because the
+	// method is private and it's done elsewhere
+	private void addElement(int index, String element) {
 		if (element == null) {
 			throw new IllegalArgumentException("Argument can not be null");
 		}
