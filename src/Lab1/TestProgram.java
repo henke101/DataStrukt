@@ -1,5 +1,10 @@
 package Lab1;
-
+/**
+ * 
+ * @author HenrikAndersson
+ * @author Mike Phoohad
+ *
+ */
 public class TestProgram {
 	
 	public static void main (String [] args){

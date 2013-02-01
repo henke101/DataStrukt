@@ -1,6 +1,10 @@
 package Lab1;
 
-
+/**
+ * Class that calculates the square root of a positive number
+ * @author Henrik Andersson
+ * @author Mike Phoohad
+ */
 public class Uppg2 {
 	/**
 	 * Calculates the square root of a positive number greater than or equal to
