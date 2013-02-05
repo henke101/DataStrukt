@@ -14,5 +14,5 @@ public class SortedLinkedCollection<E extends Comparable<? super E>> extends Lin
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	// TEST
 }
