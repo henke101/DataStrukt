@@ -18,9 +18,7 @@
 		<link>
 			<name>javapaket</name>
 			<type>2</type>
-
-			<location>C:/Users/HenrikAndersson/workspace/DataStrukt/javapaket</location>
-
+			<location>../home/user/git/DataStrukt/javapaket</location>
 		</link>
 	</linkedResources>
 </projectDescription>
