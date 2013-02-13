@@ -25,10 +25,13 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 
+import testSortCol.AVLwithGet;
+import testSortCol.BSTwithGet;
 import testSortCol.CollectionWithGet;
 import testSortCol.Referenslista;
 import testSortCol.TestMapWithCounter;
 import Lab2.SortedLinkedCollection;
+import Lab2.SplayTree;
 
 /**
  * Detta �r en frame varmed man kan testa olika sorterade samlingar.
@@ -49,32 +52,29 @@ public class TestFrame extends JFrame implements ActionListener {
    
     CollectionWithGet<TestMapWithCounter.TestMapEntry<String,List<Integer>>>
 		containerSLC   =   new SortedLinkedCollection<TestMapWithCounter.TestMapEntry<String,List<Integer>>>(),
-		containerBST   =   null,
-        containerAVL   =   null,
-        containerSplay =   null;
+		containerBST   =   new BSTwithGet<TestMapWithCounter.TestMapEntry<String,List<Integer>>>(),
+        containerAVL   =   new AVLwithGet<TestMapWithCounter.TestMapEntry<String,List<Integer>>>(),
+        containerSplay =   new SplayTree<TestMapWithCounter.TestMapEntry<String,List<Integer>>>();
     
     /*    **************************************************  */   
 
   TestMapWithCounter<String,List<Integer>> slcMap =
      new TestMapWithCounter<String,List<Integer>>(containerSLC);
 
-  TestMapWithCounter<String,List<Integer>> bstMap = null;
-//     new TestMapWithCounter<String,List<Integer>>(containerBST);
+  TestMapWithCounter<String,List<Integer>> bstMap = new TestMapWithCounter<String,List<Integer>>(containerBST);
 
-  TestMapWithCounter<String,List<Integer>> avlMap = null;
-//     new TestMapWithCounter<String,List<Integer>>(containerAVL);
+  TestMapWithCounter<String,List<Integer>> avlMap = new TestMapWithCounter<String,List<Integer>>(containerAVL);
 
-  TestMapWithCounter<String,List<Integer>> splayMap = null;
-//     new TestMapWithCounter<String,List<Integer>>(containerSplay);
+  TestMapWithCounter<String,List<Integer>> splayMap = new TestMapWithCounter<String,List<Integer>>(containerSplay);
 
-  TestMapWithCounter<String,List<Integer>>  map =  bstMap;
+  TestMapWithCounter<String,List<Integer>>  map = splayMap;
 
 
 
   JRadioButton list  = new JRadioButton("SLC",false);
-  JRadioButton bst   = new JRadioButton("BST",true);
+  JRadioButton bst   = new JRadioButton("BST",false);
   JRadioButton avl   = new JRadioButton("AVL",false);
-  JRadioButton splay = new JRadioButton("Splay",false);
+  JRadioButton splay = new JRadioButton("Splay",true);
   
 
   JButton text     = new JButton(" V�lj fil");

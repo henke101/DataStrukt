@@ -8,8 +8,99 @@ public class SplayTree<E extends Comparable<? super E>> extends
 
 	@Override
 	public E get(E e) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if (e == null) {
+			throw new NullPointerException("Element is null");
+		}
+//		Entry current = root;
+//		Entry target = null;
+//		/*
+//		 * Searching for the target "node" (Entry) of the element.
+//		 */
+//		int cmp;
+//		Entry previous = current;
+//		while (current != null) {
+//			cmp = current.element.compareTo(e);
+//			if (cmp == 0) {
+//				target = current;
+//				splay(target);
+//				return target.element;
+//			} else if (cmp < 0) {
+//				previous = current;
+//				current = current.left;
+//			} else {
+//				previous = current;
+//				current = current.right;
+//			}
+//		}
+//		splay(previous);
+//		return null;
+
+		Entry target = new Entry(null, null), previous = new Entry(null, null);
+		boolean found = find(e, root, target, previous);
+		if (found) {
+			splay(target);
+		} else {
+			if (previous != null)
+				splay(previous);
+			return null;
+		}
+		return target.element;
+	}
+	
+	private boolean find(E elem, Entry t, Entry target, Entry prev) {
+
+		if (t == null)
+			return false;
+		else {
+			int jfr = elem.compareTo(t.element);
+			if (jfr < 0)
+				return find(elem, t.left, target, t);
+			else if (jfr > 0)
+				return find(elem, t.right, target, t);
+			else {
+				target = t;
+				return true;
+			}
+		}
+	}
+	
+	private void splay(Entry target) {
+		/*
+		 * Now we move the target "node" up to the root position.
+		 */
+		Entry targetParent, targetGrandParent;
+		while (target != root) {
+			targetParent = target.parent;
+			targetGrandParent = targetParent.parent;
+			if (targetGrandParent == null) {
+				if (targetParent.left == target) {
+					zig(targetParent); // we send parents to the methods we didn't write ourselves
+					target = targetParent; // we have to remap here since the methods we didn't write only swaps elements and never "nodes"
+				} else {
+					zag(targetParent);
+					target = targetParent;
+				}
+			} else {
+				if (targetParent.left == target) {
+					if (targetGrandParent.left == targetParent) {
+						zigZig(targetGrandParent);
+						target = targetGrandParent;
+					} else {
+						zagZig(targetGrandParent); // not our method
+						target = targetGrandParent;
+					}
+				} else {
+					if (targetGrandParent.left == targetParent) {
+						zigZag(targetGrandParent); // not our method
+						target = targetGrandParent;
+					} else {
+						zagZag(targetGrandParent);
+						target = targetGrandParent;
+					}
+				}
+			}
+		}
 	}
 
 	/*
@@ -50,10 +141,15 @@ public class SplayTree<E extends Comparable<? super E>> extends
 		x.left = y;
 	} // rotateLeft
 
-	/*
-	 * Rotera 2 steg i h�gervarv, dvs x' z' / \ / \ y' D --> y' x' / \ / \ / \ A
-	 * z' A B C D / \ B C
-	 */
+	/* Rotera 2 steg i h�gervarv, dvs 
+		    x'                  z'
+		   / \                /   \
+		  y'  D   -->        y'    x'
+		 / \                / \   / \
+		A   z'             A   B C   D
+		   / \  
+		  B   C  
+		*/
 	private void zigZag(Entry x) {
 		Entry y = x.left, z = x.left.right;
 		E e = x.element;
@@ -70,10 +166,15 @@ public class SplayTree<E extends Comparable<? super E>> extends
 		z.parent = x;
 	} // doubleRotateRight
 
-	/*
-	 * Rotera 2 steg i v�nstervarv, dvs x' z' / \ / \ A y' --> x' y' / \ / \ / \
-	 * z D A B C D / \ B C
-	 */
+	/* Rotera 2 steg i v�nstervarv, dvs 
+    		x'                  z'
+		   / \                /   \
+		  A   y'   -->       x'    y'
+		     / \            / \   / \
+		    z   D          A   B C   D
+		   / \  
+		  B   C  
+		*/
 	private void zagZig(Entry x) {
 		Entry y = x.right, z = x.right.left;
 		E e = x.element;
@@ -90,26 +191,80 @@ public class SplayTree<E extends Comparable<? super E>> extends
 		z.parent = x;
 	} // doubleRotateLeft
 
+	
+	/* Rotera 2 steg i v�nstervarv, dvs 
+			x'                  z'
+		   / \                 /  \
+		  y'  D     -->       A    y'
+		 / \           		      / \
+		z'  C            		 B   x'
+	   / \  						/ \
+	  A   B  					   C   D
+		*/
 	private void zigZig(Entry x) {
-		Entry q = x.parent.parent;
-		Entry p = x.parent;
-		Entry oldQParent = q.parent;
+		Entry y = x.left, z = x.left.left;
+		E e = x.element;
+		x.element = z.element;
+		z.element = e;
+		Entry temp = z.left;
+		y.left = z.right;
+		if (y.left != null)
+			y.left.parent = y;
+		z.right = x.right;
+		if (z.right != null)
+			z.right.parent = z;
+		z.left = y.right;
+		if (z.left != null)
+			z.left.parent = z;
+		x.left = temp;
+		if (x.left != null)
+			x.left.parent = x;
+		y.right = z;
+		x.right = y;
+	}
+	
+	/* Rotera 2 steg i v�nstervarv, dvs 
+			z'                  x'
+		   / \                 /  \
+		  y'  D     <--       A    y'
+		 / \           		      / \
+		x'  C            		 B   z'
+	   / \  						/ \
+	  A   B  					   C   D
+		*/
+	private void zagZag(Entry x) {
+		Entry y = x.right, z = x.right.right;
+		E e = x.element;
+		x.element = z.element;
+		z.element = e;
+		Entry temp = z.right;
+		y.right = z.left;
+		if (y.right != null)
+			y.right.parent = y;
+		z.left = x.left;
+		if (z.left != null)
+			z.left.parent = z;
+		z.right = y.left;
+		if (z.right != null)
+			z.right.parent = z;
+		x.right = temp;
+		if (x.right != null)
+			x.right.parent = x;
+		y.left = z;
+		x.left = y;
+	}
+	
+	private void handleRoot(Entry x, Entry q) {
 		if (q == root) {
 			root = x;
 			x.parent = null;
 		} else {
-			x.parent = oldQParent;
-			if (oldQParent.left == q) {
-				oldQParent.left = x;
+			x.parent = q.parent;
+			if (x.parent.left == q) {
+				x.parent.left = x;
 			} else {
-				oldQParent.right = x;
+				x.parent.right = x;
 			}
 		}
-		q.left = p.right;
-		q.parent = p;
-		p.left = x.right;
-		p.right = q;
-		p.parent = x;
-		x.right = p;
 	}
 }
