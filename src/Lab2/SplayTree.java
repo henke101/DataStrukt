@@ -3,66 +3,68 @@ package Lab2;
 import testSortCol.CollectionWithGet;
 import datastructures.BinarySearchTree;
 
+/**
+ * An implementation of a Splay tree.
+ * A collection that is selfbalancing and always puts the last accessed
+ * 
+ * 
+ * @author Mike Phoohad
+ * @author Henrik Andersson
+ * @group 21
+ */
 public class SplayTree<E extends Comparable<? super E>> extends
 		BinarySearchTree<E> implements CollectionWithGet<E> {
 
+	/**
+	 * Returns an element after it has splayed the element to the top.
+	 * If no element is found it splays the element 
+	 * closest to the value of the parameter to the top,
+	 * enabling for faster access to similar elements.
+	 * 
+	 * @return The element it is asked to retrieve
+	 */
 	@Override
 	public E get(E e) {
 		
 		if (e == null) {
 			throw new NullPointerException("Element is null");
-		}
-//		Entry current = root;
-//		Entry target = null;
-//		/*
-//		 * Searching for the target "node" (Entry) of the element.
-//		 */
-//		int cmp;
-//		Entry previous = current;
-//		while (current != null) {
-//			cmp = current.element.compareTo(e);
-//			if (cmp == 0) {
-//				target = current;
-//				splay(target);
-//				return target.element;
-//			} else if (cmp < 0) {
-//				previous = current;
-//				current = current.left;
-//			} else {
-//				previous = current;
-//				current = current.right;
-//			}
-//		}
-//		splay(previous);
-//		return null;
-
-		Entry target = new Entry(null, null), previous = new Entry(null, null);
-		boolean found = find(e, root, target, previous);
-		if (found) {
-			splay(target);
-		} else {
-			if (previous != null)
-				splay(previous);
+		} else if (root == null) {
 			return null;
 		}
-		return target.element;
+		
+		Entry target = findEntry(e, root);
+		if (target != null) {
+			splay(target);
+			return root.element;
+		} else {
+			return null;
+		}
 	}
 	
-	private boolean find(E elem, Entry t, Entry target, Entry prev) {
-
-		if (t == null)
-			return false;
-		else {
-			int jfr = elem.compareTo(t.element);
-			if (jfr < 0)
-				return find(elem, t.left, target, t);
-			else if (jfr > 0)
-				return find(elem, t.right, target, t);
-			else {
-				target = t;
-				return true;
+	/*
+	 * If it finds the element it returns the Entry 
+	 * that contains the element.
+	 * This method will splay the tree on the previous compared
+	 * Entry if it can't find the element in the tree. 
+	 */
+	private Entry findEntry(E e, Entry t) {
+		
+		Entry current = t;
+		Entry previous = current;
+		while (current != null) {
+			int cmp = e.compareTo(current.element);
+			if (cmp < 0) {
+				previous = current;
+				current = current.left;
+			} else if (cmp > 0) {
+				previous = current;
+				current = current.right;
+			} else {
+				return current;
 			}
 		}
+		splay(previous);
+		return null;
 	}
 	
 	private void splay(Entry target) {
@@ -70,33 +72,33 @@ public class SplayTree<E extends Comparable<? super E>> extends
 		 * Now we move the target "node" up to the root position.
 		 */
 		Entry targetParent, targetGrandParent;
-		while (target != root) {
+		while (target.parent != null) {
 			targetParent = target.parent;
 			targetGrandParent = targetParent.parent;
 			if (targetGrandParent == null) {
 				if (targetParent.left == target) {
-					zig(targetParent); // we send parents to the methods we didn't write ourselves
-					target = targetParent; // we have to remap here since the methods we didn't write only swaps elements and never "nodes"
+					target = targetParent; 
+					zig(target);  
 				} else {
-					zag(targetParent);
 					target = targetParent;
+					zag(target);
 				}
 			} else {
 				if (targetParent.left == target) {
 					if (targetGrandParent.left == targetParent) {
-						zigZig(targetGrandParent);
 						target = targetGrandParent;
+						zigZig(target);
 					} else {
-						zagZig(targetGrandParent); // not our method
 						target = targetGrandParent;
+						zagZig(target);
 					}
 				} else {
 					if (targetGrandParent.left == targetParent) {
-						zigZag(targetGrandParent); // not our method
 						target = targetGrandParent;
+						zigZag(target);
 					} else {
-						zagZag(targetGrandParent);
 						target = targetGrandParent;
+						zagZag(target);
 					}
 				}
 			}
@@ -104,8 +106,12 @@ public class SplayTree<E extends Comparable<? super E>> extends
 	}
 
 	/*
-	 * Rotera 1 steg i h�gervarv, dvs x' y' / \ / \ y' C --> A x' / \ / \ A B B
-	 * C
+	 * Rotate the subtree clockwise
+	 *       x'			        y'
+	 *      / \                / \
+	 *     y'  C     ->       A   x'
+	 *    / \                    / \
+	 *   A   B                  B   C
 	 */
 	private void zig(Entry x) {
 		Entry y = x.left;
@@ -120,11 +126,10 @@ public class SplayTree<E extends Comparable<? super E>> extends
 		if (y.right != null)
 			y.right.parent = y;
 		x.right = y;
-	} // rotateRight
+	}
 
 	/*
-	 * Rotera 1 steg i v�nstervarv, dvs x' y' / \ / \ A y' --> x' C / \ / \ B C
-	 * A B
+	 * Rotate the subtree counter-clockwise
 	 */
 	private void zag(Entry x) {
 		Entry y = x.right;
@@ -141,7 +146,7 @@ public class SplayTree<E extends Comparable<? super E>> extends
 		x.left = y;
 	} // rotateLeft
 
-	/* Rotera 2 steg i h�gervarv, dvs 
+	/* Rotate the subtree twice clockwise
 		    x'                  z'
 		   / \                /   \
 		  y'  D   -->        y'    x'
@@ -166,7 +171,7 @@ public class SplayTree<E extends Comparable<? super E>> extends
 		z.parent = x;
 	} // doubleRotateRight
 
-	/* Rotera 2 steg i v�nstervarv, dvs 
+	/* Rotate the subtree twice counter-clockwise
     		x'                  z'
 		   / \                /   \
 		  A   y'   -->       x'    y'
@@ -174,7 +179,7 @@ public class SplayTree<E extends Comparable<? super E>> extends
 		    z   D          A   B C   D
 		   / \  
 		  B   C  
-		*/
+	*/
 	private void zagZig(Entry x) {
 		Entry y = x.right, z = x.right.left;
 		E e = x.element;
@@ -192,7 +197,7 @@ public class SplayTree<E extends Comparable<? super E>> extends
 	} // doubleRotateLeft
 
 	
-	/* Rotera 2 steg i v�nstervarv, dvs 
+	/* Executes two zig operations to the tree
 			x'                  z'
 		   / \                 /  \
 		  y'  D     -->       A    y'
@@ -200,7 +205,7 @@ public class SplayTree<E extends Comparable<? super E>> extends
 		z'  C            		 B   x'
 	   / \  						/ \
 	  A   B  					   C   D
-		*/
+	*/
 	private void zigZig(Entry x) {
 		Entry y = x.left, z = x.left.left;
 		E e = x.element;
@@ -223,7 +228,7 @@ public class SplayTree<E extends Comparable<? super E>> extends
 		x.right = y;
 	}
 	
-	/* Rotera 2 steg i v�nstervarv, dvs 
+	/* Inverted zigzig
 			z'                  x'
 		   / \                 /  \
 		  y'  D     <--       A    y'
@@ -231,7 +236,7 @@ public class SplayTree<E extends Comparable<? super E>> extends
 		x'  C            		 B   z'
 	   / \  						/ \
 	  A   B  					   C   D
-		*/
+	*/
 	private void zagZag(Entry x) {
 		Entry y = x.right, z = x.right.right;
 		E e = x.element;
@@ -252,19 +257,5 @@ public class SplayTree<E extends Comparable<? super E>> extends
 			x.right.parent = x;
 		y.left = z;
 		x.left = y;
-	}
-	
-	private void handleRoot(Entry x, Entry q) {
-		if (q == root) {
-			root = x;
-			x.parent = null;
-		} else {
-			x.parent = q.parent;
-			if (x.parent.left == q) {
-				x.parent.left = x;
-			} else {
-				x.parent.right = x;
-			}
-		}
 	}
 }
