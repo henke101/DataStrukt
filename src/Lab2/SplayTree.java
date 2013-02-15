@@ -4,8 +4,9 @@ import testSortCol.CollectionWithGet;
 import datastructures.BinarySearchTree;
 
 /**
- * An implementation of a Splay tree.
- * A collection that is selfbalancing and always puts the last accessed
+ * An implementation of a Splay tree. A collection that is selfbalancing and
+ * always puts the last accessed node as the root of the tree before it returns
+ * it. This provides fast access to similar elements.
  * 
  * 
  * @author Mike Phoohad
@@ -16,22 +17,25 @@ public class SplayTree<E extends Comparable<? super E>> extends
 		BinarySearchTree<E> implements CollectionWithGet<E> {
 
 	/**
-	 * Returns an element after it has splayed the element to the top.
-	 * If no element is found it splays the element 
-	 * closest to the value of the parameter to the top,
-	 * enabling for faster access to similar elements.
+	 * Returns an element after it has splayed the element to the top. If no
+	 * element is found it splays the element closest to the value of the
+	 * parameter to the top, enabling for faster access to similar elements.
 	 * 
 	 * @return The element it is asked to retrieve
 	 */
 	@Override
 	public E get(E e) {
-		
+
 		if (e == null) {
 			throw new NullPointerException("Element is null");
 		} else if (root == null) {
 			return null;
 		}
-		
+
+		/*
+		 * The splay is performed here after the Entry has been found. If it
+		 * isn't found findEntry splays the node with the closest value.
+		 */
 		Entry target = findEntry(e, root);
 		if (target != null) {
 			splay(target);
@@ -40,15 +44,14 @@ public class SplayTree<E extends Comparable<? super E>> extends
 			return null;
 		}
 	}
-	
+
 	/*
-	 * If it finds the element it returns the Entry 
-	 * that contains the element.
-	 * This method will splay the tree on the previous compared
-	 * Entry if it can't find the element in the tree. 
+	 * If it finds the element it returns the Entry that contains the element.
+	 * This method will splay the tree on the previous compared Entry if it
+	 * can't find the element in the tree.
 	 */
 	private Entry findEntry(E e, Entry t) {
-		
+
 		Entry current = t;
 		Entry previous = current;
 		while (current != null) {
@@ -66,19 +69,19 @@ public class SplayTree<E extends Comparable<? super E>> extends
 		splay(previous);
 		return null;
 	}
-	
+
+	/*
+	 * This method splays the target Entry to the root.
+	 */
 	private void splay(Entry target) {
-		/*
-		 * Now we move the target "node" up to the root position.
-		 */
 		Entry targetParent, targetGrandParent;
 		while (target.parent != null) {
 			targetParent = target.parent;
 			targetGrandParent = targetParent.parent;
 			if (targetGrandParent == null) {
 				if (targetParent.left == target) {
-					target = targetParent; 
-					zig(target);  
+					target = targetParent;
+					zig(target);
 				} else {
 					target = targetParent;
 					zag(target);
@@ -87,18 +90,20 @@ public class SplayTree<E extends Comparable<? super E>> extends
 				if (targetParent.left == target) {
 					if (targetGrandParent.left == targetParent) {
 						target = targetGrandParent;
-						zigZig(target);
+						zigZig(target); // Target and parent is leftchildren
 					} else {
 						target = targetGrandParent;
-						zagZig(target);
+						zagZig(target); // Target is leftchild and Parent is
+										// rightchild
 					}
 				} else {
 					if (targetGrandParent.left == targetParent) {
 						target = targetGrandParent;
-						zigZag(target);
+						zigZag(target); // Target is rightchild and Parent is
+										// leftchild
 					} else {
 						target = targetGrandParent;
-						zagZag(target);
+						zagZag(target); // Target and parent is rightchildren
 					}
 				}
 			}
@@ -144,7 +149,7 @@ public class SplayTree<E extends Comparable<? super E>> extends
 		if (y.left != null)
 			y.left.parent = y;
 		x.left = y;
-	} // rotateLeft
+	}
 
 	/* Rotate the subtree twice clockwise
 		    x'                  z'
@@ -169,7 +174,7 @@ public class SplayTree<E extends Comparable<? super E>> extends
 			z.right.parent = z;
 		x.right = z;
 		z.parent = x;
-	} // doubleRotateRight
+	}
 
 	/* Rotate the subtree twice counter-clockwise
     		x'                  z'
@@ -194,7 +199,7 @@ public class SplayTree<E extends Comparable<? super E>> extends
 			z.left.parent = z;
 		x.left = z;
 		z.parent = x;
-	} // doubleRotateLeft
+	}
 
 	
 	/* Executes two zig operations to the tree
